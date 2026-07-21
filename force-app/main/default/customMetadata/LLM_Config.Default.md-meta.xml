@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <label>Default</label>
+    <protected>false</protected>
+    <values>
+        <field>Model__c</field>
+        <value xsi:type="xsd:string">claude-haiku-4-5-20251001</value>
+    </values>
+    <values>
+        <field>Named_Credential__c</field>
+        <value xsi:type="xsd:string">Claude_Integration</value>
+    </values>
+    <values>
+        <field>API_Version__c</field>
+        <value xsi:type="xsd:string">2023-06-01</value>
+    </values>
+    <values>
+        <field>Max_Tokens__c</field>
+        <value xsi:type="xsd:double">4096</value>
+    </values>
+</CustomMetadata>

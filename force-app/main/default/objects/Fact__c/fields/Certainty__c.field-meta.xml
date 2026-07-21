@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Certainty__c</fullName>
+    <label>Certainty</label>
+    <type>Picklist</type>
+    <description>Stated = explicit in CV. Inferred = deduced. Conflicting = CV contradicts itself. Missing = expected but absent.</description>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Stated</fullName><default>true</default><label>Stated</label></value>
+            <value><fullName>Inferred</fullName><default>false</default><label>Inferred</label></value>
+            <value><fullName>Conflicting</fullName><default>false</default><label>Conflicting</label></value>
+            <value><fullName>Missing</fullName><default>false</default><label>Missing</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Conflict_Count__c</fullName>
+    <label>Conflicts</label>
+    <type>Summary</type>
+    <summaryForeignKey>Fact__c.Candidate__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <summaryFilterItems>
+        <field>Fact__c.Certainty__c</field>
+        <operation>equals</operation>
+        <value>Conflicting</value>
+    </summaryFilterItems>
+</CustomField>
