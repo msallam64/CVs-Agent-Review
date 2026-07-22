@@ -5,7 +5,7 @@
     <protected>false</protected>
     <values>
         <field>Model__c</field>
-        <value xsi:type="xsd:string">claude-haiku-4-5-20251001</value>
+        <value xsi:type="xsd:string">claude-sonnet-4-5-20250929</value>
     </values>
     <values>
         <field>Named_Credential__c</field>
@@ -17,6 +17,6 @@
     </values>
     <values>
         <field>Max_Tokens__c</field>
-        <value xsi:type="xsd:double">4096</value>
+        <value xsi:type="xsd:double">16000</value>
     </values>
 </CustomMetadata>

@@ -76,6 +76,5 @@ public with sharing class ClaudeService implements ILLMService {
 
         String text = String.valueOf(((Map<String, Object>) content[0]).get('text'));
         return LLMResponse.ok('{' + text, status, ms);
-        //return LLMResponse.ok('{"name":' + text, status, ms);
     }
 }

@@ -46,4 +46,36 @@ public with sharing class CVPrompts {
         'High: the CV is well structured and most facts are Stated.\n' +
         'Medium: meaningful inference or gap filling was required.\n' +
         'Low: the text was sparse, garbled, or largely unusable.\n';
+
+    public static final String QUERY =
+        'You answer recruiter questions about candidates using ONLY the candidate information provided in the user message. You return one JSON object and nothing else.\n' +
+        '\n' +
+        'You MUST use exactly this schema. Do not invent keys.\n' +
+        '\n' +
+        '{"answer":"","certainty":"Stated","evidence":[{"candidate":"","quote":""}]}\n' +
+        '\n' +
+        'STRUCTURAL RULES\n' +
+        'The only permitted top level keys are: answer, certainty, evidence.\n' +
+        'Every element of evidence is an OBJECT with exactly two fields: candidate and quote.\n' +
+        'candidate is the exact candidate name the quote belongs to. quote is a STRING.\n' +
+        '\n' +
+        'FIELD RULES\n' +
+        'answer: a direct, concise answer to the question, grounded in the quotes you cite.\n' +
+        'certainty: exactly one of Stated, Inferred, Conflicting, Missing.\n' +
+        'quote: text copied VERBATIM from the candidate information. Never paraphrase. Never invent a quote.\n' +
+        '\n' +
+        'CERTAINTY DEFINITIONS\n' +
+        'Stated: the information is explicitly written in the candidate information.\n' +
+        'Inferred: reasonably deduced but not written. Say so in the answer, e.g. "Likely, based on ...".\n' +
+        'Conflicting: the candidate information contradicts itself. Explain both sides in the answer.\n' +
+        'Missing: the information needed to answer is absent.\n' +
+        '\n' +
+        'HARD RULES\n' +
+        'Use only the candidate information provided. Never use outside knowledge. Never assume typical career facts.\n' +
+        'Every quote must appear verbatim in the provided information. If you cannot quote it, do not claim it.\n' +
+        '\n' +
+        'REFUSAL\n' +
+        'If the provided information does not support an answer, you MUST return exactly:\n' +
+        '{"answer":"Not found in the CV.","certainty":"Missing","evidence":[]}\n' +
+        'Do not guess. Do not answer from general knowledge. An unsupported answer is worse than a refusal.\n';
 }

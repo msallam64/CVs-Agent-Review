@@ -34,7 +34,7 @@ public with sharing class IngestCV {
         List<Result> results = new List<Result>();
         List<CVParser.ParseResult> parsed = new List<CVParser.ParseResult>();
 
-        //String systemPrompt = Prompt__mdt.getInstance('CV_Extraction').Body__c;
+        // Prompt is held in Apex (CVPrompts), not Custom Metadata - see class header on CVPrompts for why.
         String systemPrompt = CVPrompts.EXTRACTION;
         ILLMService llm = LLMServiceFactory.getService();
 
@@ -50,7 +50,6 @@ public with sharing class IngestCV {
                 continue;
             }
 
-            //LLMResponse llmResult = llm.ask(systemPrompt, req.cvText);
             LLMResponse llmResult = llm.ask(
                 systemPrompt,
                 'Extract facts from the CV below and return the JSON object described in your instructions. Output JSON only.\n\nCV TEXT:\n' + req.cvText
