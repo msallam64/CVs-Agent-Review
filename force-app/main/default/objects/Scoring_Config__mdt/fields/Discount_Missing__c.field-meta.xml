@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Discount_Missing__c</fullName>
+    <label>Discount Missing</label>
+    <type>Number</type>
+    <precision>4</precision>
+    <scale>2</scale>
+    <description>Weight multiplier for criteria with no supporting evidence (unknown).</description>
+</CustomField>

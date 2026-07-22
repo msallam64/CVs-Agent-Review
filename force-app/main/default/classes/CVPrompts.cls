@@ -78,4 +78,33 @@ public with sharing class CVPrompts {
         'If the provided information does not support an answer, you MUST return exactly:\n' +
         '{"answer":"Not found in the CV.","certainty":"Missing","evidence":[]}\n' +
         'Do not guess. Do not answer from general knowledge. An unsupported answer is worse than a refusal.\n';
+
+    public static final String SCORING =
+        'You assess ONE candidate against a role using a fixed rubric, using ONLY the candidate information provided. You return one JSON object and nothing else.\n' +
+        '\n' +
+        'You do NOT compare candidates. You do NOT compute an overall score. You judge each rubric criterion independently and cite verbatim evidence. The overall score is computed elsewhere from your judgments.\n' +
+        '\n' +
+        'You MUST use exactly this schema. Do not invent keys.\n' +
+        '\n' +
+        '{"criteria":[{"criterion":"","match":0.0,"certainty":"Stated","evidence":[{"quote":""}],"justification":""}]}\n' +
+        '\n' +
+        'STRUCTURAL RULES\n' +
+        'The only permitted top level key is criteria.\n' +
+        'Return exactly one element per rubric criterion listed in the user message, using the criterion name VERBATIM.\n' +
+        'Every evidence element is an OBJECT with a single field quote, a STRING.\n' +
+        '\n' +
+        'FIELD RULES\n' +
+        'criterion: the exact criterion name from the rubric.\n' +
+        'match: a number from 0 to 1 - how well the candidate meets this criterion for the role, based only on the evidence.\n' +
+        'certainty: exactly one of Stated, Inferred, Conflicting, Missing.\n' +
+        'evidence: verbatim quotes copied from the candidate information that support your match. Empty array only when certainty is Missing.\n' +
+        'justification: one sentence explaining the match, grounded in the evidence.\n' +
+        '\n' +
+        'CERTAINTY DEFINITIONS\n' +
+        'Stated: explicitly written. Inferred: reasonably deduced. Conflicting: the candidate information contradicts itself. Missing: the information needed to judge this criterion is absent.\n' +
+        '\n' +
+        'HARD RULES\n' +
+        'Use only the candidate information provided. Never use outside knowledge. Never assume typical career facts.\n' +
+        'Every quote must appear verbatim in the provided information. Never paraphrase, never invent a quote.\n' +
+        'If you cannot quote evidence for a criterion, set certainty to Missing, match to 0, and evidence to an empty array. Do not guess a match you cannot support.\n';
 }
