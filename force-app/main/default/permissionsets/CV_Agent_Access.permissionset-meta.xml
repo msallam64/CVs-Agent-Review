@@ -1,9 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>CV Agent Access</label>
+    <hasActivationRequired>false</hasActivationRequired>
+
+    <!-- Lets the callout use the Anthropic External Credential. -->
     <externalCredentialPrincipalAccesses>
         <enabled>true</enabled>
         <externalCredentialPrincipal>Anthropic-Anthropic</externalCredentialPrincipal>
     </externalCredentialPrincipalAccesses>
-    <hasActivationRequired>false</hasActivationRequired>
-    <label>CV Agent Access</label>
+
+    <!-- Apex actions the agent (and its user) must be able to execute. -->
+    <classAccesses><apexClass>AgentLogger</apexClass><enabled>true</enabled></classAccesses>
+    <classAccesses><apexClass>BookmarkCandidate</apexClass><enabled>true</enabled></classAccesses>
+    <classAccesses><apexClass>CVParser</apexClass><enabled>true</enabled></classAccesses>
+    <classAccesses><apexClass>CVPrompts</apexClass><enabled>true</enabled></classAccesses>
+    <classAccesses><apexClass>ClaudeService</apexClass><enabled>true</enabled></classAccesses>
+    <classAccesses><apexClass>FindCandidates</apexClass><enabled>true</enabled></classAccesses>
+    <classAccesses><apexClass>ILLMService</apexClass><enabled>true</enabled></classAccesses>
+    <classAccesses><apexClass>IngestCV</apexClass><enabled>true</enabled></classAccesses>
+    <classAccesses><apexClass>LLMResponse</apexClass><enabled>true</enabled></classAccesses>
+    <classAccesses><apexClass>LLMServiceFactory</apexClass><enabled>true</enabled></classAccesses>
+    <classAccesses><apexClass>QueryCandidates</apexClass><enabled>true</enabled></classAccesses>
+    <classAccesses><apexClass>ScoreAndCompare</apexClass><enabled>true</enabled></classAccesses>
+    <classAccesses><apexClass>ScoringPolicy</apexClass><enabled>true</enabled></classAccesses>
+
+    <!-- Objects -->
+    <objectPermissions>
+        <object>Candidate__c</object>
+        <allowRead>true</allowRead><allowCreate>true</allowCreate><allowEdit>true</allowEdit><allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords><modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Fact__c</object>
+        <allowRead>true</allowRead><allowCreate>true</allowCreate><allowEdit>true</allowEdit><allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords><modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Bookmark__c</object>
+        <allowRead>true</allowRead><allowCreate>true</allowCreate><allowEdit>true</allowEdit><allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords><modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Agent_Log__c</object>
+        <allowRead>true</allowRead><allowCreate>true</allowCreate><allowEdit>true</allowEdit><allowDelete>false</allowDelete>
+        <viewAllRecords>false</viewAllRecords><modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+
+    <!-- Candidate fields (rollups are read-only) -->
+    <fieldPermissions><field>Candidate__c.CV_Text__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Candidate__c.Confidence__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Candidate__c.Email__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Candidate__c.File_Name__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Candidate__c.Phone__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Candidate__c.Status__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Candidate__c.Summary__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Candidate__c.Conflict_Count__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Candidate__c.Missing_Count__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+
+    <!-- Fact fields (Candidate__c is a master-detail relationship, controlled by the parent) -->
+    <fieldPermissions><field>Fact__c.Certainty__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Fact__c.Conflict__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Fact__c.Detail__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Fact__c.Evidence__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Fact__c.Type__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+
+    <!-- Bookmark fields (Candidate__c is a required lookup - FLS not settable) -->
+    <fieldPermissions><field>Bookmark__c.Notes__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Bookmark__c.Reason__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Bookmark__c.Role__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Bookmark__c.Saved_At__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Bookmark__c.Score__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Bookmark__c.Snapshot__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+
+    <!-- Agent Log fields -->
+    <fieldPermissions><field>Agent_Log__c.Action__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Agent_Log__c.Candidate__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Agent_Log__c.Duration_ms__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Agent_Log__c.Error__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Agent_Log__c.Input__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Agent_Log__c.Output__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Agent_Log__c.Status__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
 </PermissionSet>
