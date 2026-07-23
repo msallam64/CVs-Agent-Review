@@ -1,0 +1,41 @@
+<template>
+    <lightning-card title="Ingest CV" icon-name="standard:document">
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+            <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_small">
+                Upload a .txt CV or paste the text. PDF/DOC extraction is stubbed in this prototype.
+            </p>
+
+            <input type="file" accept=".txt,text/plain" onchange={handleFile} class="slds-m-bottom_small" />
+
+            <lightning-textarea
+                label="CV Text"
+                value={cvText}
+                onchange={handleText}
+                placeholder="Paste the CV text here..."
+                class="slds-m-bottom_small"
+            ></lightning-textarea>
+
+            <lightning-button
+                variant="brand"
+                label="Ingest"
+                onclick={ingest}
+                disabled={loading}
+            ></lightning-button>
+            <template lwc:if={loading}>
+                <lightning-spinner alternative-text="Ingesting" size="small"></lightning-spinner>
+            </template>
+
+            <template lwc:if={error}>
+                <div class="slds-m-top_small slds-text-color_error">{error}</div>
+            </template>
+
+            <template lwc:if={result}>
+                <template lwc:if={result.success}>
+                    <div class="slds-box slds-theme_success slds-m-top_small">
+                        {result.message}
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

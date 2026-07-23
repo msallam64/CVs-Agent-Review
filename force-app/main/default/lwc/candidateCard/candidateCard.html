@@ -1,0 +1,48 @@
+<template>
+    <lightning-card title="Candidate Card" icon-name="standard:contact">
+        <template lwc:if={hasCard}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+                <h2 class="slds-text-heading_medium">{card.candidate.Name}</h2>
+                <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_x-small">
+                    {card.candidate.Email__c}&nbsp;&nbsp;{card.candidate.Phone__c}
+                </p>
+                <div class="slds-m-bottom_small">
+                    <lightning-badge label={card.candidate.Confidence__c}></lightning-badge>
+                    <lightning-badge label={card.candidate.Status__c}></lightning-badge>
+                </div>
+                <template lwc:if={card.candidate.Summary__c}>
+                    <p class="slds-m-bottom_medium">{card.candidate.Summary__c}</p>
+                </template>
+
+                <template for:each={card.groups} for:item="g">
+                    <div key={g.certainty} class="slds-box slds-box_x-small slds-m-bottom_small">
+                        <div class={g.theme}>
+                            <lightning-icon icon-name={g.icon} size="x-small" variant="inverse"></lightning-icon>
+                            <span class="slds-m-left_x-small">{g.certainty} ({g.count})</span>
+                        </div>
+                        <ul class="slds-m-top_x-small">
+                            <template for:each={g.facts} for:item="f">
+                                <li key={f.Id} class="slds-p-vertical_xx-small slds-border_bottom">
+                                    <div><strong>{f.Type__c}:</strong>&nbsp;{f.Name}</div>
+                                    <template lwc:if={f.Detail__c}>
+                                        <div class="slds-text-body_small slds-text-color_weak">{f.Detail__c}</div>
+                                    </template>
+                                    <template lwc:if={f.Evidence__c}>
+                                        <blockquote class="evidence">&ldquo;{f.Evidence__c}&rdquo;</blockquote>
+                                    </template>
+                                    <template lwc:if={f.Conflict__c}>
+                                        <div class="slds-text-color_error slds-text-body_small">Conflict: {f.Conflict__c}</div>
+                                    </template>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <template lwc:if={error}>
+            <div class="slds-p-around_medium slds-text-color_error">{error}</div>
+        </template>
+    </lightning-card>
+</template>

@@ -1,0 +1,27 @@
+.cert {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    color: #fff;
+    font-weight: 600;
+}
+.cert_stated {
+    background-color: #2e844a;
+}
+.cert_inferred {
+    background-color: #dd7a01;
+}
+.cert_conflicting {
+    background-color: #ba0517;
+}
+.cert_missing {
+    background-color: #706e6b;
+}
+.evidence {
+    border-left: 3px solid #c9c7c5;
+    padding-left: 0.5rem;
+    margin: 0.25rem 0;
+    font-style: italic;
+    color: #3e3e3c;
+}

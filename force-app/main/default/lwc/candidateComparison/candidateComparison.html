@@ -1,0 +1,71 @@
+<template>
+    <lightning-card title="Compare Candidates" icon-name="standard:merge">
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+            <lightning-input
+                label="Role"
+                value={role}
+                onchange={handleRole}
+                placeholder="e.g. Senior Salesforce Developer"
+                class="slds-m-bottom_small"
+            ></lightning-input>
+
+            <lightning-dual-listbox
+                label="Candidates"
+                source-label="Available"
+                selected-label="Comparing"
+                options={candidateOptions}
+                value={selectedIds}
+                onchange={handleSelect}
+            ></lightning-dual-listbox>
+
+            <div class="slds-m-top_small">
+                <lightning-button
+                    variant="brand"
+                    label="Compare"
+                    onclick={compare}
+                    disabled={loading}
+                ></lightning-button>
+                <template lwc:if={loading}>
+                    <lightning-spinner alternative-text="Scoring" size="small"></lightning-spinner>
+                </template>
+            </div>
+
+            <template lwc:if={error}>
+                <div class="slds-m-top_small slds-text-color_error">{error}</div>
+            </template>
+
+            <template lwc:if={result}>
+                <template lwc:if={result.success}>
+                    <div class={recommendationClass}>
+                        <strong>Recommended: {result.recommendedName}</strong> &mdash;
+                        {result.topScore}/100
+                    </div>
+
+                    <template for:each={scorecards} for:item="s">
+                        <div key={s.candidateId} class="slds-box slds-box_x-small slds-m-bottom_x-small">
+                            <div class="slds-grid slds-grid_align-spread">
+                                <span><strong>{s.rank}. {s.name}</strong></span>
+                                <span class="slds-badge">{s.score}/100</span>
+                            </div>
+
+                            <div class="coverage-track slds-m-vertical_xx-small">
+                                <div class="coverage-fill" style={s.coverageStyle}></div>
+                            </div>
+                            <div class="slds-text-body_small slds-text-color_weak">{s.coverage}% of the rubric evidenced</div>
+
+                            <template lwc:if={s.hasStrengths}>
+                                <div class="slds-text-body_small"><span class="tag tag_ok">Strengths</span> {s.strengthsText}</div>
+                            </template>
+                            <template lwc:if={s.hasConcerns}>
+                                <div class="slds-text-body_small"><span class="tag tag_warn">Concerns</span> {s.concernsText}</div>
+                            </template>
+                            <template lwc:if={s.hasGaps}>
+                                <div class="slds-text-body_small"><span class="tag tag_gap">Gaps to validate</span> {s.gapsText}</div>
+                            </template>
+                        </div>
+                    </template>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>
